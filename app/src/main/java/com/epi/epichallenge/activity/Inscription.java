@@ -1,7 +1,6 @@
-package com.epi.epichallenge.Activity;
+package com.epi.epichallenge.activity;
 
-import android.content.Intent;
-
+import android.app.Activity;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +9,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.os.Bundle;
 
 import com.epi.epichallenge.R;
 import com.epi.epichallenge.domain.User;
+import com.epi.epichallenge.task.InscriptionSync;
 
 /**
  * @author Saber Ben Khalifa <dev.saberkhalifda@gmail.com>
@@ -21,14 +20,17 @@ import com.epi.epichallenge.domain.User;
  * @time 12:01 PM
  * @utitlity Main Activity
  */
-public class Inscription extends AppCompatActivity implements TextWatcher{
+public class Inscription extends Activity implements TextWatcher{
     //private Button btnInscription;
 
+    private EditText txtusername;
     private EditText txtNom;
     private EditText txtPrenomn;
     private EditText txtEmail;
     private EditText txtpassword;
     private TextInputLayout nomWrapper;
+
+    private TextInputLayout usernameWrapper;
     private TextInputLayout prenomWrapper;
     private TextInputLayout emailWrapper;
     private TextInputLayout passWrapper;
@@ -53,16 +55,24 @@ public class Inscription extends AppCompatActivity implements TextWatcher{
         this.txtpassword = this.findViewById(R.id.editTxtPassword);
         this.txtpassword.addTextChangedListener(this);
 
+        this.txtusername = this.findViewById(R.id.editTxtusername);
+        this.txtusername.addTextChangedListener(this);
+
         this.nomWrapper = this.findViewById(R.id.nomWrapper);
+
         this.prenomWrapper = this.findViewById(R.id.prenomWrapper);
+
         this.emailWrapper = this.findViewById(R.id.emailWrapper);
+
         this.passWrapper = this.findViewById(R.id.passWrapper);
 
+        this.usernameWrapper = this.findViewById(R.id.usernameWrapper);
 
         this.btnInscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPerson();
+
+                inscription();
             }
         });
 
@@ -78,13 +88,23 @@ public class Inscription extends AppCompatActivity implements TextWatcher{
     /**
      * Event click to add ne person in sqllite database
      */
-    private void addPerson() {
+    private void  inscription() {
+       /* String lastName = params[0];
+        String fistName = params[1];
+        String username = params[2];
+        String password = params[3];
+        String email = params[4];
+
+
+        boolean enable =Boolean.parseBoolean(params[5]);
+        boolean account_non_expired = Boolean.parseBoolean(params[6]);
+        boolean account_non_locked = Boolean.parseBoolean(params[7]);
+        boolean credentials_non_expired = Boolean.parseBoolean(params[8]);*/
         if (!isFiedlEmpty()) {
-            User user = new User();
-            user.setLastName(txtPrenomn.getText().toString());
-            user.setFirstName(txtNom.getText().toString());
-            user.setEmail(txtEmail.getText().toString());
-            user.setPassword(txtpassword.getText().toString());
+
+new InscriptionSync(this).execute(txtPrenomn.getText().toString(),txtNom.getText().toString(),txtusername.getText().toString(),
+        txtpassword.getText().toString(),txtEmail.getText().toString());
+
 
 
 
